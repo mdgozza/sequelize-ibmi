@@ -336,7 +336,7 @@ describe(Support.getTestDialectTeaser('Sequelize Errors'), () => {
       });
     });
 
-    it.skip('Supports newlines in keys', function() {
+    it.skip('Supports newlines in keys', async function() {
       const spy = sinon.spy(),
         User = this.sequelize.define('user', {
           name: {

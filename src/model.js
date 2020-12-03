@@ -1405,52 +1405,6 @@ class Model {
             options
           );
         }
-<<<<<<< HEAD:lib/model.js
-        return Promise.all([
-          this.QueryInterface.describeTable(this.getTableName(options)),
-          this.QueryInterface.getForeignKeyReferencesForTable(this.getTableName(options))
-        ])
-          .then(tableInfos => {
-            const columns = tableInfos[0];
-            // Use for alter foreign keys
-            const foreignKeyReferences = tableInfos[1];
-
-            const changes = []; // array of promises to run
-            const removedConstraints = {};
-
-            _.each(attributes, (columnDesc, columnName) => {
-              if (!columns[columnName] && !columns[attributes[columnName].field]) {
-                changes.push(() => this.QueryInterface.addColumn(this.getTableName(options), attributes[columnName].field || columnName, attributes[columnName]));
-              }
-            });
-            _.each(columns, (columnDesc, columnName) => {
-              const currentAttribute = rawAttributes[columnName];
-              if (!currentAttribute) {
-                changes.push(() => this.QueryInterface.removeColumn(this.getTableName(options), columnName, options));
-              } else if (!currentAttribute.primaryKey) {
-                // Check foreign keys. If it's a foreign key, it should remove constraint first.
-                const references = currentAttribute.references;
-                if (currentAttribute.references) {
-                  // const database = this.sequelize.config.database;
-                  const schema = this.sequelize.config.schema;
-                  // Find existed foreign keys
-                  _.each(foreignKeyReferences, foreignKeyReference => {
-                    const constraintName = foreignKeyReference.constraintName;
-                    if (!!constraintName
-                      // && foreignKeyReference.tableCatalog === database
-                      && (schema ? foreignKeyReference.tableSchema === schema : true)
-                      && foreignKeyReference.referencedTableName === references.model.tableName // model.tableName, since model is an object
-                      && foreignKeyReference.referencedColumnName === references.key
-                      && (schema ? foreignKeyReference.referencedTableSchema === schema : true)
-                      && !removedConstraints[constraintName]) {
-                      // Remove constraint on foreign keys.
-                      changes.push(() => this.QueryInterface.removeConstraint(this.getTableName(options), constraintName, options));
-                      removedConstraints[constraintName] = true;
-                    }
-                  });
-                }
-                changes.push(() => this.QueryInterface.changeColumn(this.getTableName(options), columnName, currentAttribute));
-=======
       }
 
       if (options.alter === true || (typeof options.alter === 'object' && options.alter.drop !== false)) {
@@ -1482,7 +1436,6 @@ class Model {
                 // Remove constraint on foreign keys.
                 await this.queryInterface.removeConstraint(tableName, constraintName, options);
                 removedConstraints[constraintName] = true;
->>>>>>> 3cb75591cb33d6d9484a8985d22695a02ac9f269:src/model.js
               }
             }
           }
@@ -2717,14 +2670,7 @@ class Model {
         }
       }
 
-<<<<<<< HEAD:lib/model.js
       if (options.ignoreDuplicates && ['mssql', 'ibmi'].includes(dialect)) {
-        return Promise.reject(new Error(`${dialect} does not support the ignoreDuplicates option.`));
-      }
-      if (options.updateOnDuplicate && (dialect !== 'mysql' && dialect !== 'mariadb' && dialect !== 'sqlite' && dialect !== 'postgres' && dialect !== 'ibmi')) {
-        return Promise.reject(new Error(`${dialect} does not support the updateOnDuplicate option.`));
-=======
-      if (options.ignoreDuplicates && ['mssql'].includes(dialect)) {
         throw new Error(`${dialect} does not support the ignoreDuplicates option.`);
       }
       if (
@@ -2732,10 +2678,10 @@ class Model {
         dialect !== 'mysql' &&
         dialect !== 'mariadb' &&
         dialect !== 'sqlite' &&
-        dialect !== 'postgres'
+        dialect !== 'postgres' &&
+        dialect !== 'ibmi'
       ) {
         throw new Error(`${dialect} does not support the updateOnDuplicate option.`);
->>>>>>> 3cb75591cb33d6d9484a8985d22695a02ac9f269:src/model.js
       }
 
       const model = options.model;

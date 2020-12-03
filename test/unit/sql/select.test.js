@@ -669,7 +669,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
             attributes: ['* FROM User; DELETE FROM User;SELECT id']
           }),
           {
-            default: 'SELECT [* FROM User; DELETE FROM User;SELECT id] FROM [User];'
+            default: 'SELECT [* FROM User; DELETE FROM User;SELECT id] FROM [User];',
             ibmi: 'SELECT "* FROM User; DELETE FROM User;SELECT id" FROM "User"'
           }
         );

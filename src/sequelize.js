@@ -346,6 +346,7 @@ class Sequelize {
 
     this.dialect = new Dialect(this);
     this.dialect.queryGenerator.typeValidation = options.typeValidation;
+    
 
     if (_.isPlainObject(this.options.operatorsAliases)) {
       deprecations.noStringOperators();
