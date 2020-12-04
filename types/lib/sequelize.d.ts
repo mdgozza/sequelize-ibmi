@@ -166,7 +166,7 @@ export interface Config {
   };
 }
 
-export type Dialect = 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql';
+export type Dialect = 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'ibmi';
 
 export interface RetryOptions {
   match?: (RegExp | string | Function)[];
@@ -389,6 +389,11 @@ export interface Options extends Logging {
   logQueryParameters?: boolean;
 
   retry?: RetryOptions;
+
+  /**
+   * to support how sequelize-ibmi handles connections.
+   */
+  odbcConnectionString?: string;
 }
 
 export interface QueryOptionsTransactionRequired { }
